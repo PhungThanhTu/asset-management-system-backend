@@ -1,0 +1,25 @@
+{
+  "name": "asset-management-system-backend",
+  "version": "1.0.0",
+  "description": "Backend application of asset management system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhungThanhTu/asset-management-system-backend.git"
+  },
+  "author": "Phung Thanh Tu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhungThanhTu/asset-management-system-backend/issues"
+  },
+  "homepage": "https://github.com/PhungThanhTu/asset-management-system-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
