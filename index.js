@@ -6,12 +6,7 @@ var mysql = require('./db_config')
 
 app.use(express.json())
 
-const sampleJsonData = [
-    {
-        username:'admin',
-        password:'admin',
-    }
-]
+
 
 app.get('/', (req, res) => {
   
@@ -19,12 +14,17 @@ app.get('/', (req, res) => {
   res.json(sampleJsonData);
 })
 
-app.post('/',(req,res) => {
-    console.log(req.body);
+app.post('/login/',(req,res) => {
+    var reqbody = req.body;
+    console.log(reqbody);
+    if(reqbody.username == 'admin' && reqbody.password == "admin")
+      res.send(successMessage);
+    else
+      res.send(failMessage);
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`);
   
 })
 
