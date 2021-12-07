@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config();
 const app = express()
 const port = 3000
 
@@ -15,8 +16,7 @@ app.get('/',(req,res) => {
 })
 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-  
-})
+let server = app.listen(process.env.PORT || 3000, function () {
+  console.log(`Server listening on port ${server.address().port}`);
+});
 
