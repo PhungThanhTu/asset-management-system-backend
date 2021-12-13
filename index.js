@@ -5,9 +5,13 @@ const port = 3000
 
 // routes 
 var login = require('./routes/login');
+var device = require('./routes/device');
+var contract = require('./routes/contract');
 
 app.use(express.json());
 app.use('/login',login);
+app.use('/devices',device);
+app.use('/contract',contract);
 
 
 
