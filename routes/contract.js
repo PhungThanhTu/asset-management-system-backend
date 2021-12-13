@@ -5,3 +5,4 @@ var sql_config = require('../sql_server')
 
 var router = express.Router();
 
+module.exports = router;
