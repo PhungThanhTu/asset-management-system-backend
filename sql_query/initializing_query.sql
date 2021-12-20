@@ -37,11 +37,14 @@ create table Contracts
 )
 go
 
+-- Đơn vị chỉ có 2 loại, đó là Quản lí và Sử dụng, các thiết bị mới nhập về luôn là từ phòng quản lí
 create table Division
 (
 	id int identity(1,1) primary key,
 	name nvarchar(50),
-	type nvarchar(20)
+	type nvarchar(20),
+	constraint chk_type
+	CHECK (type in ('Using','Managing'))
 )
 go
 

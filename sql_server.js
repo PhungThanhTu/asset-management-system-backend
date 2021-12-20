@@ -11,4 +11,16 @@ const sql_config = {
            }
 }
 
-module.exports = sql_config
+const dev_sql_config = {
+    database: "AssetsManagement",
+    server: "PHUNGTHANHTU",
+    driver: "msnodesqlv8",
+    options: {
+      trustedConnection: true,
+      trustServerCertificate: true,
+    }
+};
+
+
+
+module.exports = {sql_config,dev_sql_config}

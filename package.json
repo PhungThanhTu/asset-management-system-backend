@@ -25,6 +25,7 @@
     "tedious": "^14.0.0"
   },
   "devDependencies": {
+    "msnodesqlv8": "^2.4.4",
     "nodemon": "^2.0.15"
   },
   "engines": {

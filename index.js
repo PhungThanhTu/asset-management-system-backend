@@ -5,14 +5,14 @@ const port = 3000
 
 // routes 
 var login = require('./routes/login');
-var device = require('./routes/device');
-var contract = require('./routes/contract');
+var supplier = require('./routes/supplier')
+
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
 app.use('/login',login);
-app.use('/devices',device);
-app.use('/contract',contract);
+app.use('/supplier',supplier);
+
 app.use('/test_api',test_api);
 
 

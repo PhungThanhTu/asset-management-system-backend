@@ -1,11 +1,15 @@
 var express = require('express');
-var mssql = require('mssql')
+var mssql = require('mssql');
 
-var sql_config = require('../sql_server')
+var sql_config = require('../sql_server').sql_config;
 
 var router = express.Router();
 
-router.get('/:username/:password', (req,res) => {
+var controller = require('../controller/login.controller')
+
+router.get('/:username/:password',controller.login);
+
+router.get('/old/:username/:password', (req,res) => {
     mssql.connect(sql_config, function (err) {
     
         if (err) console.log(err);

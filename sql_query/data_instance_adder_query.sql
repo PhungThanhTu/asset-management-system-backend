@@ -2,10 +2,24 @@
 go
 -- account
 INSERT into Account (username,password) values('user',123456)
+INSERT into Account (username,password) values('phungthanhtu','yasuo!1')
 
 
 
 select * from Account
+-- done get
+
+-- Supplier --
+INSERT INTO Supplier (name,address,phone) VALUES (N'Thế giới di động',N'khu phố 1, P. Tân Tạo, Q. Bình Tân, TP. HCM','18001061')
+INSERT INTO Supplier (name,address,phone) VALUES (N'FPT Shop',N'261 - 263 Khánh Hội, P2, Q4, TP. Hồ Chí Minh','1800 6601')
+INSERT INTO Supplier (name,address,phone) VALUES (N'Tin học ngôi sao',N'474 Điện Biên Phủ, P. 17, Q. Bình Thạnh, TP.HCM','08 99000001')
+INSERT INTO Supplier (name,address,phone) VALUES (N'GearVN',N'78-80-82 Hoàng Hoa Thám, Phường 12, Quận Tân Bình','1800 6975')
+
+truncate table Supplier
+
+select * from Supplier
+
+-----------------------------done get
 -- unit
 INSERT INTO device_unit (u_name,note) values ('Cái','Không')
 -- type
@@ -22,21 +36,15 @@ INSERT INTO device_type (t_name,note) values ('Quạt','Dễ vỡ, cẩn thận 
 INSERT INTO device_type (t_name,note) values ('Loa','Dễ vỡ, cẩn thận trong vận chuyển')
 INSERT INTO device_type (t_name,note) values ('CPU','Dễ vỡ, cẩn thận trong vận chuyển')
 INSERT INTO device_type (t_name,note) values ('GPU','Dễ vỡ, cẩn thận trong vận chuyển')
--- Supplier --
-INSERT INTO Supplier (name,address,phone) VALUES (N'Thế giới di động',N'khu phố 1, P. Tân Tạo, Q. Bình Tân, TP. HCM','18001061')
-INSERT INTO Supplier (name,address,phone) VALUES (N'FPT Shop',N'261 - 263 Khánh Hội, P2, Q4, TP. Hồ Chí Minh','1800 6601')
-INSERT INTO Supplier (name,address,phone) VALUES (N'Tin học ngôi sao',N'474 Điện Biên Phủ, P. 17, Q. Bình Thạnh, TP.HCM','08 99000001')
-INSERT INTO Supplier (name,address,phone) VALUES (N'GearVN',N'78-80-82 Hoàng Hoa Thám, Phường 12, Quận Tân Bình','1800 6975')
 
-truncate table Supplier
-
-select * from Supplier
 -- Division
 -- lưu ý, mọi thiết bị đều được mặc định thuộc về phòng quản trị thiết bị, muốn đưa cho các phòng ban khác phải
 -- thông qua đơn chuyển giao
 -- chỉ có phòng quản trị thiết bị là phòng ban duy nhất có loại phòng 'managing' còn lại đều là 'using'
 insert into Division (name,type) values ('Phòng quản trị thiết bị','Managing')
+insert into Division (name,type) values ('Phòng máy khoa CNPM','Using')
 
+select * from Division
 -- Device_Set --
 INSERT INTO Device_Set (name) VALUES (N'PC văn phòng')
 INSERT INTO Device_Set (name) VALUES (N'PC ASUS ROG Strix')
@@ -76,3 +84,5 @@ INSERT INTO Device (contract,set_id,name,price) VALUES (2,2,N'Bàn phím AKKO 30
 INSERT INTO Device (contract,set_id,name,price) VALUES (2,2,N'Chuột Microsoft Arc Mouse',2400000)
 INSERT INTO Device (contract,set_id,name,price) VALUES (2,2,N'Màn hình Asus ROG Strix XG27WQ 2K 165Hz',12000000)
 INSERT INTO Device (contract,set_id,name,price) VALUES (2,2,N'Dàn loa Sony 5.1 HT-S20R 400W',4000000)
+
+select * from Device
