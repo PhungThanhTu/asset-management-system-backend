@@ -7,7 +7,10 @@ INSERT into Account (username,password) values('phungthanhtu','yasuo!1')
 
 
 select * from Account
--- done get
+
+
+
+-- done get,post
 
 -- Supplier --
 INSERT INTO Supplier (name,address,phone) VALUES (N'Thế giới di động',N'khu phố 1, P. Tân Tạo, Q. Bình Tân, TP. HCM','18001061')
