@@ -11,9 +11,7 @@ var router = express.Router();
 
 router.get('/list',controller.list)
 
-router.post('/add',(req,res) => {
-    
-})
+router.post('/add',controller.add)
 
 
 module.exports = router;

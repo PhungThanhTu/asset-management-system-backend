@@ -65,6 +65,7 @@ async function addnewAccount(username,password){
         .input('username',mssql.VarChar,username)
         .input('password',mssql.VarChar,password)
         .query('insert into Account (username,password) values (@username,@password)',(err, handle) => {
+            console.log(handle);
             result = handle;
       });
     }

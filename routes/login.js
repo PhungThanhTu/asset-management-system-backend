@@ -10,6 +10,7 @@ var controller = require('../controller/login.controller')
 router.get('/:username/:password',controller.login);
 
 
+
 router.post('/create',controller.create);
 
 
