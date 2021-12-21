@@ -5,13 +5,13 @@ var sql_config = require('../sql_server').sql_config;
 // class supplier
 class Supplier{
     constructor(name,address,phone){
+        this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
     }
 }
 
-// get login credentials
 async function getSuppliers() {
     console.log('User get suppliers list');
     
@@ -35,7 +35,6 @@ async function getSuppliers() {
     
 }
 
-
 async function addnewSupplier(supplier){
     let result;
     try {
@@ -58,4 +57,47 @@ async function addnewSupplier(supplier){
     return result;
 }
 
-module.exports = {getSuppliers,addnewSupplier}
+async function updateSupplier(supplier){
+    let result;
+    try {
+        let  pool = await  mssql.connect(sql_config);
+        let request = await pool.request()
+        .input('id',mssql.Int,supplier.id)
+        .input('name',mssql.NVarChar,supplier.name)
+        .input('address',mssql.NVarChar,supplier.address)
+        .input('phone',mssql.VarChar,supplier.phone)
+        .query('update Supplier set name = @name,address = @address, phone = @phone where id = @id',(err,handle) => {
+            result = handle;
+            console.log("User edit record id " + supplier.id + " :");
+            console.log(supplier);
+            console.log("Result :")
+            console.log(result);
+        })
+    }
+      catch (err) {
+        result = err;
+    }
+    return result;
+}
+
+async function deleteSupplier(supplierId)
+{
+    let result;
+    try {
+        let  pool = await  mssql.connect(sql_config);
+        let request = await pool.request()
+        .input('id',mssql.Int,supplierId)
+        .query('delete from Supplier where id = @id',(err,handle) => {
+            result = handle;
+            console.log("User delete record id " + supplierId + " :");
+            console.log("Result :")
+            console.log(result);
+        })
+    }
+      catch (err) {
+        result = err;
+    }
+    return result;
+}
+
+module.exports = {getSuppliers,addnewSupplier,updateSupplier,deleteSupplier}

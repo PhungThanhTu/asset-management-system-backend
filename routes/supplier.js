@@ -13,5 +13,9 @@ router.get('/list',controller.list)
 
 router.post('/add',controller.add)
 
+router.patch('/update',controller.update)
+
+router.delete('/delete',controller.delete_supplier)
+
 
 module.exports = router;
