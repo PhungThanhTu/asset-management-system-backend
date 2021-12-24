@@ -9,13 +9,13 @@ var controller = require('../controller/supplier.controller')
 var router = express.Router();
 
 
-router.get('/list',controller.list)
+router.get('/',controller.list)
 
-router.post('/add',controller.add)
+router.post('/',controller.add)
 
-router.patch('/update',controller.update)
+router.patch('/',controller.update)
 
-router.delete('/delete',controller.delete_supplier)
+router.delete('/',controller.delete_supplier)
 
 
 module.exports = router;

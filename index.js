@@ -6,12 +6,14 @@ const port = 3000
 // routes 
 var login = require('./routes/login');
 var supplier = require('./routes/supplier')
+var contract = require('./routes/contract')
 
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
 app.use('/login',login);
 app.use('/supplier',supplier);
+app.use('/contract',contract);
 
 app.use('/test_api',test_api);
 

@@ -36,68 +36,52 @@ async function getSuppliers() {
 }
 
 async function addnewSupplier(supplier){
-    let result;
-    try {
-        let  pool = await  mssql.connect(sql_config);
-        let request = await pool.request()
-        .input('name',mssql.NVarChar,supplier.name)
-        .input('address',mssql.NVarChar,supplier.address)
-        .input('phone',mssql.VarChar,supplier.phone)
-        .query('insert into Supplier (name,address,phone) values (@name,@address,@phone)',(err,handle) => {
-            result = handle;
-            console.log("User add value : ");
-            console.log(supplier);
-            console.log("Result :")
-            console.log(result);
-        })
-    }
-      catch (err) {
-        result = err;
-    }
-    return result;
+    let final_result;
+    let  pool = await mssql.connect(sql_config);
+    let request = await pool.request()
+    .input('name',mssql.NVarChar,supplier.name)
+    .input('address',mssql.NVarChar,supplier.address)
+    .input('phone',mssql.VarChar,supplier.phone)
+    .query('insert into Supplier (name,address,phone) values (@name,@address,@phone)').then((result) =>
+    {   
+        console.log("Rows affected :");
+        console.log(result.rowsAffected);
+        final_result = result.rowsAffected;
+    });
+    return final_result[0];
 }
 
 async function updateSupplier(supplier){
-    let result;
-    try {
         let  pool = await  mssql.connect(sql_config);
         let request = await pool.request()
         .input('id',mssql.Int,supplier.id)
         .input('name',mssql.NVarChar,supplier.name)
         .input('address',mssql.NVarChar,supplier.address)
         .input('phone',mssql.VarChar,supplier.phone)
-        .query('update Supplier set name = @name,address = @address, phone = @phone where id = @id',(err,handle) => {
-            result = handle;
-            console.log("User edit record id " + supplier.id + " :");
-            console.log(supplier);
-            console.log("Result :")
-            console.log(result);
-        })
-    }
-      catch (err) {
-        result = err;
-    }
-    return result;
+        .query('update Supplier set name = @name,address = @address, phone = @phone where id = @id').then((result) =>
+        {   
+            console.log("Rows affected :");
+            console.log(result.rowsAffected);
+            final_result = result.rowsAffected;
+        });
+        return final_result[0];
+  
 }
 
 async function deleteSupplier(supplierId)
 {
     let result;
-    try {
+
         let  pool = await  mssql.connect(sql_config);
         let request = await pool.request()
         .input('id',mssql.Int,supplierId)
-        .query('delete from Supplier where id = @id',(err,handle) => {
-            result = handle;
-            console.log("User delete record id " + supplierId + " :");
-            console.log("Result :")
-            console.log(result);
-        })
-    }
-      catch (err) {
-        result = err;
-    }
-    return result;
-}
+        .query('delete from Supplier where id = @id').then((result) =>
+        {   
+            console.log("Rows affected :");
+            console.log(result.rowsAffected);
+            final_result = result.rowsAffected;
+        });
+        return final_result[0];
+ }
 
 module.exports = {getSuppliers,addnewSupplier,updateSupplier,deleteSupplier}

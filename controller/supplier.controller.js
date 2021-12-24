@@ -22,18 +22,34 @@ async function add(req,res)
         message:"default",
     }
     
-    try
-    {
-    let result = await model.addnewSupplier(req.body);
-    console.log(result);
-    message.message = "New Supplier added " + req.body.name;
-    res.send(message);
-    }
-    catch
-    {
-        message.message = "An error occured, please try again";
+    
+    
+        let result;
+        try
+        {
+            result = await model.addnewSupplier(req.body);
+            console.log("User attempt to add supplier with these information : ");
+            console.log(req.body);
+            if(result > 0)
+            {
+                message.message = "New Supplier added " + req.body.name + ", affected " + result + (result == 1? " row": "rows");
+            }
+            else 
+            {
+                message.message = "Eror occured, nothing updated in database";
+            }
+
+            }
+        catch
+        {
+            message.message = "Eror occured, nothing updated in database";
+        }
+        
+        console.log(message);
         res.send(message);
-    }
+       
+        
+    
     
 }
 
@@ -47,14 +63,15 @@ async function update(req,res){
     {
         let result = await model.updateSupplier(req.body);
         console.log(result);
-        message.message = "Updated supplier " + req.body.id;
-        res.send(message);
+        message.message = "Updated supplier id " + req.body.id + ", affected " + result + (result == 1? " row": "rows");
+        
     }
     catch
     {
         message.message = "An error occured, please try again";
-        res.send(message);
     }
+    console.log(message);
+    res.send(message);
 }
 
 async function delete_supplier(req,res){
@@ -65,14 +82,14 @@ async function delete_supplier(req,res){
     try {
         let result = await model.deleteSupplier(req.body.id);
         console.log(result);
-        message.message = "Deleted record " + req.body.id;
-        res.send(message);
+        message.message = "Deleted supplier id " + req.body.id  + ", affected " + result + (result == 1? " row": "rows");;
     }
     catch {
         message.message = "An error occured, please try again";
-        res.send(message);
 
     }
+    console.log(message);
+    res.send(message);
 }
 
 module.exports = {list,add,update,delete_supplier}

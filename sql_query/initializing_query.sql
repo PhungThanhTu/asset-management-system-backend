@@ -22,7 +22,7 @@ create table Supplier
 (
 	id int identity(1,1) primary key,
 	name nvarchar(50),
-	address nvarchar(50),
+	address nvarchar(100),
 	phone varchar(50)
 )
 go

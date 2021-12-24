@@ -6,7 +6,7 @@ INSERT into Account (username,password) values('phungthanhtu','yasuo!1')
 
 
 
-select * from Account
+
 
 
 
@@ -18,11 +18,15 @@ INSERT INTO Supplier (name,address,phone) VALUES (N'FPT Shop',N'261 - 263 Khánh
 INSERT INTO Supplier (name,address,phone) VALUES (N'Tin học ngôi sao',N'474 Điện Biên Phủ, P. 17, Q. Bình Thạnh, TP.HCM','08 99000001')
 INSERT INTO Supplier (name,address,phone) VALUES (N'GearVN',N'78-80-82 Hoàng Hoa Thám, Phường 12, Quận Tân Bình','1800 6975')
 
-truncate table Supplier
+-- Contracts --
 
-select * from Supplier
+-- remember, date format is YYYY-mm-dd
+INSERT INTO Contracts (id,import_date,price,supplier) VALUES (1,'2014-10-14',0,1)
+INSERT INTO Contracts (id,import_date,price,supplier) VALUES (2,'2021-12-16',0,4)
 
------------------------------done get
+
+
+-----------------------------done get,post,patch
 -- unit
 INSERT INTO device_unit (u_name,note) values ('Cái','Không')
 -- type
@@ -40,6 +44,15 @@ INSERT INTO device_type (t_name,note) values ('Loa','Dễ vỡ, cẩn thận tro
 INSERT INTO device_type (t_name,note) values ('CPU','Dễ vỡ, cẩn thận trong vận chuyển')
 INSERT INTO device_type (t_name,note) values ('GPU','Dễ vỡ, cẩn thận trong vận chuyển')
 
+
+
+
+
+-- fix bug format
+SELECT getdate() as date
+GO
+
+
 -- Division
 -- lưu ý, mọi thiết bị đều được mặc định thuộc về phòng quản trị thiết bị, muốn đưa cho các phòng ban khác phải
 -- thông qua đơn chuyển giao
@@ -51,18 +64,10 @@ select * from Division
 -- Device_Set --
 INSERT INTO Device_Set (name) VALUES (N'PC văn phòng')
 INSERT INTO Device_Set (name) VALUES (N'PC ASUS ROG Strix')
--- Contracts --
-SET IDENTITY_INSERT Contracts ON
 
--- remember, date format it 2014-10-14
-INSERT INTO Contracts (id,import_date,supplier) VALUES (1,'2014-10-14',1)
-INSERT INTO Contracts (id,import_date,supplier) VALUES (2,'2021-12-16',4)
 
-select * from Contracts
-truncate table contracts
--- fix bug format
-SELECT getdate() as date
-GO
+
+
 
 -- Device --
 INSERT INTO Device (contract,set_id,name,price) VALUES (1,1,N'Màn hình samsung',750000)
