@@ -37,6 +37,23 @@ create table Contracts
 )
 go
 
+create table device_unit
+(
+	id int identity(1,1) primary key,
+	u_name nvarchar(20),
+	note nvarchar(50)
+)
+go
+
+-- đặt tên sao cho không trùng keyword của mssql
+create table device_type
+(
+	id int identity(1,1) primary key,
+	t_name nvarchar(20),
+	note nvarchar(50)
+)
+go
+
 -- Đơn vị chỉ có 2 loại, đó là Quản lí và Sử dụng, các thiết bị mới nhập về luôn là từ phòng quản lí
 create table Division
 (
@@ -48,21 +65,8 @@ create table Division
 )
 go
 
-create table device_unit
-(
-	id int identity(1,1) primary key,
-	u_name nvarchar(20),
-	note nvarchar(50)
-)
-go
--- đặt tên sao cho không trùng keyword của mssql
-create table device_type
-(
-	id int identity(1,1) primary key,
-	t_name nvarchar(20),
-	note nvarchar(50)
-)
-go
+
+
 
 create table Device_Set
 (
@@ -107,6 +111,7 @@ begin
 	update Contracts set price = 0 where id = @contract_id
 	PRINT('Inserted contract price is set to 0')
 end
+go
 	-- will calculate sum of all products in one contract
 create trigger on_insert_update_devices on Devices for insert,update
 as
@@ -118,7 +123,7 @@ begin
 	
 	update Contracts set price = @sum_money where id = @contract_id
 end
-
+go
 create trigger on_delete_devices on Devices for delete
 as
 begin
@@ -130,9 +135,7 @@ begin
 	update Contracts set price = @sum_money where id = @contract_id
 end
 -- division trigger
-
-
--- 
+	-- when insert a device, its set id is 1 and division id is 1
 
 
 create table Repairer

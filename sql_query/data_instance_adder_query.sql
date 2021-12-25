@@ -4,12 +4,6 @@ go
 INSERT into Account (username,password) values('user',123456)
 INSERT into Account (username,password) values('phungthanhtu','yasuo!1')
 
-
-
-
-
-
-
 -- done get,post
 
 -- Supplier --
@@ -17,32 +11,42 @@ INSERT INTO Supplier (name,address,phone) VALUES (N'Thế giới di động',N'k
 INSERT INTO Supplier (name,address,phone) VALUES (N'FPT Shop',N'261 - 263 Khánh Hội, P2, Q4, TP. Hồ Chí Minh','1800 6601')
 INSERT INTO Supplier (name,address,phone) VALUES (N'Tin học ngôi sao',N'474 Điện Biên Phủ, P. 17, Q. Bình Thạnh, TP.HCM','08 99000001')
 INSERT INTO Supplier (name,address,phone) VALUES (N'GearVN',N'78-80-82 Hoàng Hoa Thám, Phường 12, Quận Tân Bình','1800 6975')
-
+-----------------------------done get,post,patch,delete
 -- Contracts --
 
 -- remember, date format is YYYY-mm-dd
-INSERT INTO Contracts (id,import_date,price,supplier) VALUES (1,'2014-10-14',0,1)
-INSERT INTO Contracts (id,import_date,price,supplier) VALUES (2,'2021-12-16',0,4)
+INSERT INTO Contracts (import_date,price,supplier) VALUES ('2014-10-14',0,1)
+INSERT INTO Contracts (import_date,price,supplier) VALUES ('2021-12-16',0,4)
 
-
-
------------------------------done get,post,patch
+-----------------------------done get,post,patch,delete
 -- unit
 INSERT INTO device_unit (u_name,note) values ('Cái','Không')
+------------------------------done get
 -- type
-INSERT INTO device_type (t_name,note) values ('Màn hình','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Chuột','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Bàn phím','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Vỏ case','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Nguồn','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('RAM','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('HDD','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('SSD','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Main','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Quạt','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('Loa','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('CPU','Dễ vỡ, cẩn thận trong vận chuyển')
-INSERT INTO device_type (t_name,note) values ('GPU','Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Màn hình',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Chuột',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Bàn phím',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Vỏ case',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Nguồn',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'RAM',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'HDD',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'SSD',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Main',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Quạt',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Loa',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'CPU',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'GPU',N'Dễ vỡ, cẩn thận trong vận chuyển')
+------------------------------------done get
+-- Division
+-- lưu ý, mọi thiết bị đều được mặc định thuộc về phòng quản trị thiết bị, muốn đưa cho các phòng ban khác phải
+-- thông qua đơn chuyển giao
+-- chỉ có phòng quản trị thiết bị là phòng ban duy nhất có loại phòng 'managing' còn lại đều là 'using'
+insert into Division (name,type) values (N'Phòng quản trị thiết bị','Managing')
+insert into Division (name,type) values (N'Phòng máy khoa CNPM','Using')
+
+
+
+
 
 
 
@@ -53,12 +57,7 @@ SELECT getdate() as date
 GO
 
 
--- Division
--- lưu ý, mọi thiết bị đều được mặc định thuộc về phòng quản trị thiết bị, muốn đưa cho các phòng ban khác phải
--- thông qua đơn chuyển giao
--- chỉ có phòng quản trị thiết bị là phòng ban duy nhất có loại phòng 'managing' còn lại đều là 'using'
-insert into Division (name,type) values ('Phòng quản trị thiết bị','Managing')
-insert into Division (name,type) values ('Phòng máy khoa CNPM','Using')
+
 
 select * from Division
 -- Device_Set --

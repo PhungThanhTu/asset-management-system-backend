@@ -26,5 +26,12 @@ select * from Contracts
 truncate table contracts
 -- delete contracts table
 drop table contracts
-
-
+-- DEVICE UNIT
+select * from device_unit
+truncate table device_unit
+-- DEVICE TYPE
+select * from device_type
+truncate table device_type
+-- DIVISION
+select * from Division
+truncate table Division
