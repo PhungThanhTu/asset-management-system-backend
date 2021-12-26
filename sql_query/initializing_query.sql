@@ -67,14 +67,6 @@ go
 
 
 
-
-create table Device_Set
-(
-	id int identity(1,1) primary key,
-	name nvarchar(20)
-)
-go
-
 create table Devices
 (
 	id int identity(1,1) primary key,
@@ -89,14 +81,12 @@ create table Devices
 	holding_division int,
 	unit int,
 	type int,
-	set_id int not null,
 	current_value int
 
 	foreign key (contract_id) references Contracts(id),
 	foreign key (holding_division) references Division(id),
 	foreign key (unit) references device_unit(id),
 	foreign key (type) references device_type(id),
-	foreign key (set_id) references Device_Set(id)
 )
 go
 
@@ -124,6 +114,7 @@ begin
 	update Contracts set price = @sum_money where id = @contract_id
 end
 go
+
 create trigger on_delete_devices on Devices for delete
 as
 begin
