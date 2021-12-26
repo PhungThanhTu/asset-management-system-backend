@@ -32,6 +32,8 @@ INSERT INTO device_type (t_name,note) values (N'Quạt',N'Dễ vỡ, cẩn thậ
 INSERT INTO device_type (t_name,note) values (N'Loa',N'Dễ vỡ, cẩn thận trong vận chuyển')
 INSERT INTO device_type (t_name,note) values (N'CPU',N'Dễ vỡ, cẩn thận trong vận chuyển')
 INSERT INTO device_type (t_name,note) values (N'GPU',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'LAPTOP',N'Dễ vỡ, cẩn thận trong vận chuyển')
+INSERT INTO device_type (t_name,note) values (N'Case build sẵn',N'Dễ vỡ, cẩn thận trong vận chuyển')
 
 
 select * from device_type

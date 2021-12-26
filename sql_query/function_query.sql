@@ -1,4 +1,5 @@
-﻿drop table Account
+﻿drop table Device_set
+drop table Account
 drop table Contracts
 drop table Device
 drop table Division
@@ -7,6 +8,7 @@ drop table Repairer
 drop table Supplier
 drop table Types
 drop table Unit
+drop table Devices
 
 -- ACCOUNT
 -- get all account
@@ -43,6 +45,8 @@ SELECT IDENT_CURRENT('Contracts') as id
 
 truncate table Devices
 
+
+--- Devices
 DECLARE @json nvarchar(max) = N'[
 	{
 		"name": "Case Corsair provjp",
@@ -52,7 +56,7 @@ DECLARE @json nvarchar(max) = N'[
 		"implement_year":2014,
 		"status": "New",
 		"annual_value_lost": 0.1,
-		"contract_id": 1,
+		"contract_id": 7,
 		"unit": 1,
 		"type": 12,
 		"set_id": 1,
@@ -78,4 +82,5 @@ INSERT INTO Devices (name,price,specification,production_year,implement_year,sta
 			current_value money '$.current_value',
 			holding_division int '$.holding_division'
 			)
+
 
