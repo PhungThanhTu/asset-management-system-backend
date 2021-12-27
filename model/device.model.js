@@ -119,7 +119,7 @@ async function getDeviceDetailById(id)
     .input('id',mssql.Int,id)
     .query('select Devices.id,Devices.name,Devices.price, Devices.specification, Devices.production_year, Devices.implement_year, Devices.status, \
     Devices.annual_value_lost,Devices.contract_id,Division.name as holding_division,Division.type as division_type, device_unit.u_name as unit, device_type.t_name as type, \
-    device_type.note as note \
+    device_type.note as note, Devices.current_value \
                                                     from Devices,Division,device_unit,device_type where \
                                                             Devices.holding_division = Division.id and \
                                                             Devices.unit = device_unit.id and \
