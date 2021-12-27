@@ -124,6 +124,34 @@ async function addContractAndDevices(req,res)
     res.send(message);
 }
 
+async function getDeviceById(req,res)
+{
+    try
+        {
+            let result = await model.getDeviceDetailById(req.params.id)
+            res.send(result);
+        }
+        catch 
+        {
+            res.send({
+                message:"An error occured, please try again"
+            })
+        }
+}
 
+async function getDeviceList(req,res)
+{
+    try
+    {
+        let result = await model.getDeviceList();
+        res.send(result);
+    }
+    catch 
+    {
+        res.send({
+            message:"An error occured, please try again"
+        })
+    }
+}
 
-module.exports = {addManyDevices,getDevices,addContractAndDevices}
+module.exports = {addManyDevices,getDevices,addContractAndDevices,getDeviceById,getDeviceList}

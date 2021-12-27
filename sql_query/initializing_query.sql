@@ -129,6 +129,37 @@ end
 	-- when insert a device, its set id is 1 and division id is 1
 
 
+
+create table Transfers
+(
+	id int identity(1,1) primary key,
+	sender int,
+	receiver int,
+	transfer_date date,
+
+	foreign key (sender) references Division(id),
+	foreign key (receiver) references Division(id)
+)
+go
+
+create table Detailed_Transfers
+(
+	transfers int,
+	device int
+
+	foreign key (transfers) references Transfers(id),
+	foreign key (device) references Device(id),
+	primary key (transfers,device)
+)
+go
+
+
+
+
+
+
+
+
 create table Repairer
 (
 	id int identity(1,1) primary key,
@@ -215,27 +246,7 @@ create table Detailed_Liquidation_Personnel
 )
 go
 
-create table Transfers
-(
-	id int identity(1,1) primary key,
-	sender int,
-	receiver int
 
-	foreign key (sender) references Division(id),
-	foreign key (receiver) references Division(id)
-)
-go
-
-create table Detailed_Transfers
-(
-	transfers int,
-	device int
-
-	foreign key (transfers) references Transfers(id),
-	foreign key (device) references Device(id),
-	primary key (transfers,device)
-)
-go
 
 create table Fix
 (

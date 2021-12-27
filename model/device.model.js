@@ -108,9 +108,49 @@ async function getDevicesByDivisionAndContract(division,contract)
     return final_result.recordset;
 }
 
+async function getDeviceDetailById(id)
+{
+    console.log('User get device list based on holding division id ', id);
+    
+    
+    let final_result;
+    let  pool = await mssql.connect(sql_config);
+    let request = await pool.request()
+    .input('id',mssql.Int,id)
+    .query('select Devices.id,Devices.name,Devices.price, Devices.specification, Devices.production_year, Devices.implement_year, Devices.status, \
+    Devices.annual_value_lost,Devices.contract_id,Division.name as holding_division,Division.type as division_type, device_unit.u_name as unit, device_type.t_name as type, \
+    device_type.note as note \
+                                                    from Devices,Division,device_unit,device_type where \
+                                                            Devices.holding_division = Division.id and \
+                                                            Devices.unit = device_unit.id and \
+                                                            Devices.type = device_type.id and \
+                                                            Devices.id = @id').then((result) =>
+    {   
+        
+        final_result = result;
+    });
+    return final_result.recordset[0];
+}
+
+async function getDeviceList()
+{
+    try {
+        await mssql.connect(sql_config);
+        const result = await mssql.query`select * from Devices`;
+        
+        const list = result.recordset;
+        console.log(list);
+        return list;
+
+        
+    }
+    catch {
+        return {
+            message:'Connection Error'
+        }
+    }
+}
 
 
 
-
-
-module.exports = {addDevices,getContractLatestIdentity,getDevicesByDivision,getDeviceByContract,getDevicesByDivisionAndContract}
+module.exports = {addDevices,getContractLatestIdentity,getDevicesByDivision,getDeviceByContract,getDevicesByDivisionAndContract,getDeviceDetailById,getDeviceList}
