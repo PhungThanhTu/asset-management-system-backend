@@ -16,3 +16,5 @@ drop table device_unit
 drop table Division
 drop table Supplier
 drop table Account
+drop table Transfers
+drop table Detailed_Transfers

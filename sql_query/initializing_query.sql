@@ -148,10 +148,11 @@ create table Detailed_Transfers
 	device int
 
 	foreign key (transfers) references Transfers(id),
-	foreign key (device) references Device(id),
+	foreign key (device) references Devices(id),
 	primary key (transfers,device)
 )
 go
+
 
 
 

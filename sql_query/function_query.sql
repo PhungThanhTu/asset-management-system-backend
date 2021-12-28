@@ -24,6 +24,7 @@ select * from Supplier
 SET IDENTITY_INSERT Contracts ON
 -- get all contracts
 select * from Contracts
+
 -- clear contracts table
 truncate table contracts
 -- delete contracts table
@@ -116,7 +117,6 @@ DECLARE @json nvarchar(max) = N'{
 
 
 
--- insert into transfers
 insert into Transfers (sender,receiver,transfer_date)
 					select sender,receiver,transfer_date 
 					from openjson(@json,'$.transfer') with
@@ -126,7 +126,6 @@ insert into Transfers (sender,receiver,transfer_date)
 						transfer_date date '$.transfer_date'
 					)
 
--- insert into transfers_detail with devices info
 DECLARE @new_transfer_id int 
 SELECT @new_transfer_id = IDENT_CURRENT('Transfers') 
 
@@ -135,8 +134,7 @@ insert into Detailed_Transfers (transfers,device)
 			select @new_transfer_id as transfers,id as device from openjson(@json,'$.devices') with
 (
 	id int '$.id'
-)
--- update devices 
+) 
 update Devices 
 SET Devices.holding_division = ( select receiver from openjson(@json,'$.transfer') with
 								(

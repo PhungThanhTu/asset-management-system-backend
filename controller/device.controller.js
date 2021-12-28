@@ -99,7 +99,9 @@ async function addContractAndDevices(req,res)
     let deviceResult;
     var lastContractId;
     try
-    {
+    {   
+        console.log("User add contract and devices with these infomation : ");
+        console.log(req.body);
         // add contract
         contractResult = await contract_model.addnewContract(req.body.contract);
         // find that contract identity
