@@ -40,7 +40,18 @@ truncate table Division
 
 -- DEVICE
 select * from Devices
+select * from Division
+select * from device_unit
+select * from device_type
 
+select Devices.id,Devices.name,Devices.price, Devices.specification, Devices.production_year, Devices.implement_year, Devices.status,
+Devices.annual_value_lost,Devices.contract_id,Division.name as holding_division,Division.type as division_type, device_unit.u_name as unit, device_type.t_name as type,
+device_type.note as note, Devices.current_value
+												from Devices,Division,device_unit,device_type where
+														Devices.holding_division = Division.id and
+														Devices.unit = device_unit.id and
+														Devices.type = device_type.id
+														
 SELECT IDENT_CURRENT('Contracts') as id
 
 truncate table Devices
@@ -84,3 +95,66 @@ INSERT INTO Devices (name,price,specification,production_year,implement_year,sta
 			)
 
 
+
+DECLARE @json nvarchar(max) = N'{
+		"transfer":{
+			
+			"sender": 2,
+			"receiver": 1,
+			"transfer_date": "2017-04-15"
+		},
+		"devices" : [
+		{
+			"id" : 1
+		},
+		{
+			"id": 2
+		}
+		]		
+}'
+
+
+
+
+-- insert into transfers
+insert into Transfers (sender,receiver,transfer_date)
+					select sender,receiver,transfer_date 
+					from openjson(@json,'$.transfer') with
+					(
+						sender int '$.sender',
+						receiver int '$.receiver',
+						transfer_date date '$.transfer_date'
+					)
+
+-- insert into transfers_detail with devices info
+DECLARE @new_transfer_id int 
+SELECT @new_transfer_id = IDENT_CURRENT('Transfers') 
+
+
+insert into Detailed_Transfers (transfers,device) 
+			select @new_transfer_id as transfers,id as device from openjson(@json,'$.devices') with
+(
+	id int '$.id'
+)
+-- update devices 
+update Devices 
+SET Devices.holding_division = ( select receiver from openjson(@json,'$.transfer') with
+								(
+									sender int '$.sender',
+									receiver int '$.receiver',
+									transfer_date date '$.transfer_date'
+								))
+FROM Devices 
+	JOIN openjson(@json,'$.devices') with
+(
+	id int '$.id'
+)	newdevices
+ON Devices.id = newdevices.id
+
+select * from Devices
+select Transfers.id,S.name as sender_name, R.name as receiver_name,Transfers.transfer_date from Transfers,Division S,Division R
+			where Transfers.sender = S.id and Transfers.receiver = R.id
+
+select id,name,specification,price from Detailed_Transfers,Devices where 
+												Detailed_Transfers.device = Devices.id
+												and Detailed_Transfers.transfers = 1

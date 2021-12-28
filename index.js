@@ -11,6 +11,7 @@ var unit = require('./routes/unit');
 var type = require('./routes/type');
 var division = require('./routes/division');
 var device = require('./routes/device');
+var transfer = require('./routes/transfer')
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use('/type',type);
 app.use('/division',division);
 app.use('/test_api',test_api);
 app.use('/device',device);
+app.use('/transfer',transfer);
 
 
 app.get('/',(req,res) => {
