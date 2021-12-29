@@ -18,3 +18,5 @@ drop table Supplier
 drop table Account
 drop table Transfers
 drop table Detailed_Transfers
+drop table Check_log
+drop table Check_log_detail

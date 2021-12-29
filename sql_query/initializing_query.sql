@@ -81,7 +81,7 @@ create table Devices
 	holding_division int,
 	unit int,
 	type int,
-	current_value int
+	current_value money
 
 	foreign key (contract_id) references Contracts(id),
 	foreign key (holding_division) references Division(id),
@@ -152,8 +152,26 @@ create table Detailed_Transfers
 	primary key (transfers,device)
 )
 go
+--- done
 
+create table Check_log
+(
+	id int identity(1,1) primary key,
+	check_date date,
+)
+create table Check_log_detail
+(
+	check_log_id int,
+	device int,
+	division int,
+	status nvarchar(50),
+	current_value money
 
+	foreign key (check_log_id) references Check_log(id),
+	foreign key(device) references Devices(id),
+	foreign key (division) references Division(id),
+	primary key (check_log_id,device)
+)
 
 
 

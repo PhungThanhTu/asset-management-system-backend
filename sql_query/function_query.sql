@@ -156,3 +156,68 @@ select Transfers.id,S.name as sender_name, R.name as receiver_name,Transfers.tra
 select id,name,specification,price from Detailed_Transfers,Devices where 
 												Detailed_Transfers.device = Devices.id
 												and Detailed_Transfers.transfers = 1
+
+
+--- check devices
+
+DECLARE @check nvarchar(max) = N'{
+		"check": {
+			"check_date" : "2014-05-12"	
+		},
+		"detail" :[
+			{
+				"id": 1,
+				"division" : 1,
+				"status" : "Used",
+				"current_value" : 130000
+			},
+			{
+				"id": 2,
+				"division" : 1,
+				"status" : "Used",
+				"current_value" : 150000
+			}
+		]
+}'
+
+
+-- update device information
+
+--- insert check log table
+insert into Check_log (check_date)
+					select check_date 
+					from openjson(@check,'$.check') with
+					(
+						check_date date '$.check_date'
+					)
+-- insert check log detail
+DECLARE @new_log_id int
+SELECT @new_log_id = IDENT_CURRENT('Check_log') 
+
+insert into Check_log_detail (check_log_id,device,division,status,current_value)
+			select @new_log_id as check_log_id,device,division,status,current_value from openjson(@check,'$.detail') with
+(
+	device int '$.id',
+	division int '$.division',
+	status nvarchar(50) '$.status',
+	current_value money '$.current_value'
+) 
+
+-- update device information
+UPDATE Devices
+SET    status = device_data.status,
+       current_value = device_data.current_value
+FROM   Devices
+JOIN   OPENJSON(@check, '$.detail')
+       WITH (
+	   id int '$.id',
+	   status nvarchar(50) '$.status',
+	   current_value money '$.current_value'
+	   ) device_data
+       ON Devices.id = device_data.id
+
+
+select * from Devices
+select * from Check_log
+select * from Check_log_detail
+
