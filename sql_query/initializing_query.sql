@@ -115,6 +115,18 @@ begin
 end
 go
 
+select * from Devices
+
+create trigger current_value_based_on_year on Devices for update
+as
+	begin
+		declare @id int
+		select @id = id from inserted
+		update Devices set current_value = price - price * (YEAR(GETDATE()) - implement_year)*annual_value_lost
+	end
+
+
+
 create trigger on_delete_devices on Devices for delete
 as
 begin
@@ -172,6 +184,29 @@ create table Check_log_detail
 	foreign key (division) references Division(id),
 	primary key (check_log_id,device)
 )
+
+create trigger on_insert_checklog_detail on Check_log_detail for insert
+as
+	begin
+	-- declare
+		declare @log_id int
+		declare @device_id int
+		declare @check_year int
+		declare @implement_year int
+		declare @current_value money
+		declare @annual_value_lost float
+		declare @price money
+	-- select
+		select @log_id = check_log_id from inserted
+		select @device_id = device from inserted
+		select @check_year =  YEAR(check_date) from Check_log where id = @log_id
+		select @price = price from Devices where id = @device_id
+		select @implement_year = implement_year from Devices where id = @device_id
+		select @annual_value_lost = annual_value_lost from Devices where id = @device_id
+		select @current_value = @price - @price*(@check_year-@implement_year)*@annual_value_lost
+		update Check_log_detail set current_value = @current_value where check_log_id = @log_id and device = @device_id
+	end
+go
 
 
 

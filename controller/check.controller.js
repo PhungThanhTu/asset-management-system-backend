@@ -23,4 +23,33 @@ async function doChecking(req,res)
     res.send(message);
 }
 
-module.exports = {doChecking}
+async function getCheckLogs(req,res)
+{
+    try
+    {
+        let result = await model.listCheckLog();
+        res.send(result);
+    }
+    catch
+    {
+        res.send({
+            "message":"An error has occured, please try again"
+        })
+    }
+}
+
+async function checkLogDetailById(req,res)
+{
+    try {
+        let result = await model.listCheckLogDetail(req.params.id)
+        res.send(result);
+    }
+    catch
+    {
+        res.send({
+            "message":"An error has occured, please try again"
+        })
+    }
+}
+
+module.exports = {doChecking,getCheckLogs,checkLogDetailById}

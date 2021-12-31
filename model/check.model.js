@@ -49,4 +49,43 @@ async function checkDevices(data)
            return final_result.reduce((sum,element) => sum + element);
 }
 
-module.exports = {checkDevices}
+async function listCheckLog()
+{
+    console.log('User get check log list');
+    
+    
+    try {
+        await mssql.connect(sql_config);
+        const result = await mssql.query`select id,check_date from Check_log`;   
+        const list = result.recordset;
+        console.log(list);
+        return list;
+
+        
+    }
+    catch {
+        return {
+            message:'Error Occured, please try again'
+        }
+    }
+}
+
+async function listCheckLogDetail(id)
+{
+    console.log('User get check log detail ', id);
+    
+    
+    let final_result;
+    let  pool = await mssql.connect(sql_config);
+    let request = await pool.request()
+    .input('id',mssql.Int,id)
+    .query('select device,division,status,current_value from Check_log_detail where \
+    check_log_id = @id').then((result) =>
+    {   
+        
+        final_result = result;
+    });
+    return final_result.recordset;
+}
+
+module.exports = {checkDevices,listCheckLog,listCheckLogDetail}

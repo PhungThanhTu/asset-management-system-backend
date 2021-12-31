@@ -67,7 +67,7 @@ async function getTransfers()
     }
     catch {
         return {
-            message:'Connection Error'
+            message:'Error Occured, please try again'
         }
     }
 }

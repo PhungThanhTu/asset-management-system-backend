@@ -6,7 +6,9 @@ select * from device_unit
 select * from device_type
 select * from Contracts
 select * from Devices
-
+select * from Check_log
+select * from Check_log_detail
+select * from Transfers
 
 -- dispose query
 drop table Devices

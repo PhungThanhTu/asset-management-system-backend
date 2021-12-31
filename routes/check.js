@@ -10,6 +10,7 @@ var router = express.Router();
 
 
 router.post('/add',controller.doChecking);
-
+router.get('/list',controller.getCheckLogs);
+router.get('/id/:id',controller.checkLogDetailById);
 
 module.exports = router;
