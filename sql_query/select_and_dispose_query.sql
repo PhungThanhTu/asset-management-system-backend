@@ -10,6 +10,9 @@ select * from Check_log
 select * from Check_log_detail
 select * from Transfers
 select * from Detailed_Transfers
+select * from Personnel
+select * from Inventory
+select * from Detailed_Inventory_Personnel
 
 
 
@@ -25,3 +28,4 @@ drop table Transfers
 drop table Detailed_Transfers
 drop table Check_log
 drop table Check_log_detail
+drop table Personnel

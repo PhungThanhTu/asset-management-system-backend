@@ -16,11 +16,9 @@ async function addDevices(transfer)
         receiver int '$.receiver', \
         transfer_date date '$.transfer_date' \
     ) \
-\
+ \
 DECLARE @new_transfer_id int \
 SELECT @new_transfer_id = IDENT_CURRENT('Transfers') \
-\
-\
 insert into Detailed_Transfers (transfers,device) \
 select @new_transfer_id as transfers,id as device from openjson(@json,'$.devices') with \
 ( \
@@ -38,7 +36,10 @@ JOIN openjson(@json,'$.devices') with \
 ( \
 id int '$.id' \
 )	newdevices \
-ON Devices.id = newdevices.id").then((result) =>
+ON Devices.id = newdevices.id \
+select * from Devices \
+select Transfers.id,S.name as sender_name, R.name as receiver_name,Transfers.transfer_date from Transfers,Division S,Division R \
+where Transfers.sender = S.id and Transfers.receiver = R.id").then((result) =>
     {   
         console.log("Result :");
         console.log(result);
@@ -84,7 +85,11 @@ async function getDetailedTransferById(id)
     .input('id',mssql.Int,id)
     .query('select id,name,specification,price from Detailed_Transfers,Devices where \
     Detailed_Transfers.device = Devices.id \
-    and Detailed_Transfers.transfers = @id').then((result) =>
+    and Detailed_Transfers.transfers = @id',(err,handle) => {
+        if(err) console.log(err);
+        else console.log(handle);
+    }
+    ).then((result) =>
     {   
         
         final_result = result;

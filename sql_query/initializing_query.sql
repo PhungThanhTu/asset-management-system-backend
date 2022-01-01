@@ -115,7 +115,7 @@ begin
 end
 go
 
-select * from Devices
+
 
 create trigger current_value_based_on_year on Devices for update
 as
@@ -123,9 +123,13 @@ as
 		declare @id int
 		select @id = id from inserted
 		update Devices set current_value = price - price * (YEAR(GETDATE()) - implement_year)*annual_value_lost
+		update Devices set Devices.status = 'Need Liquidating' where id = @id and current_value/price <= 0.5
 	end
+go
 
 
+
+drop trigger status_check_liquidating
 
 create trigger on_delete_devices on Devices for delete
 as
@@ -184,7 +188,7 @@ create table Check_log_detail
 	foreign key (division) references Division(id),
 	primary key (check_log_id,device)
 )
-
+go
 create trigger on_insert_checklog_detail on Check_log_detail for insert
 as
 	begin
@@ -208,8 +212,36 @@ as
 	end
 go
 
+create table Personnel
+(
+	id int identity(1,1) primary key,
+	name nvarchar(20),
+	position varchar(20),
+	division int not null
 
+	foreign key (division) references Division(id)
+)
+go
 
+create table Inventory
+(
+	id int identity(1,1) primary key,
+	check_log int,
+
+	foreign key (check_log) references Check_log(id)
+)
+go
+
+create table Detailed_Inventory_Personnel
+(
+	inventory int,
+	personnel int
+
+	foreign key (inventory) references Inventory(id),
+	foreign key (personnel) references Personnel(id),
+	primary key (inventory,personnel)
+)
+go
 
 
 
@@ -228,16 +260,7 @@ go
 
 
 
-create table Personnel
-(
-	id int identity(1,1) primary key,
-	name nvarchar(20),
-	position varchar(20),
-	division int not null
 
-	foreign key (division) references Division(id)
-)
-go
 
 
 
@@ -260,16 +283,7 @@ create table Detailed_Inventory
 )
 go
 
-create table Detailed_Inventory_Personnel
-(
-	inventory int,
-	personnel int
 
-	foreign key (inventory) references Inventory(id),
-	foreign key (personnel) references Personnel(id),
-	primary key (inventory,personnel)
-)
-go
 
 create table Liquidation
 (
