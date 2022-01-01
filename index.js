@@ -13,6 +13,7 @@ var division = require('./routes/division');
 var device = require('./routes/device');
 var transfer = require('./routes/transfer')
 var check = require('./routes/check')
+var personnel = require('./routes/personnel')
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use('/test_api',test_api);
 app.use('/device',device);
 app.use('/transfer',transfer);
 app.use('/check',check);
-
+app.use('/personnel',personnel);
 
 app.get('/',(req,res) => {
 

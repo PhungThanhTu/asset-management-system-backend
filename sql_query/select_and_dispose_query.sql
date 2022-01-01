@@ -9,6 +9,9 @@ select * from Devices
 select * from Check_log
 select * from Check_log_detail
 select * from Transfers
+select * from Detailed_Transfers
+
+
 
 -- dispose query
 drop table Devices

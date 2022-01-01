@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "0d6444cd-96d7-4662-8d13-9eb31df1e0c3",
+		"name": "Asset Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Personnel GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/personnel/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"personnel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Personnel POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Phùng Thanh Tú\",\r\n    \"position\" : \"Nhân viên\",\r\n    \"division\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/personnel/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"personnel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Personnel PATCH",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": 1,\r\n        \"name\": \"Phùng Thanh Tú\",\r\n        \"position\": \"Úy viên\",\r\n        \"division\": 1\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/personnel/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"personnel",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Personnel DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/personnel/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"personnel",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"check\": {\r\n\t\t\t\"check_date\" : \"2018-05-12\"\t\r\n\t\t},\r\n\t\t\"detail\" :[\r\n\t\t\t{\r\n\t\t\t\t\"id\": 1,\r\n\t\t\t\t\"division\" : 2,\r\n\t\t\t\t\"status\" : \"Used\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"id\": 2,\r\n\t\t\t\t\"division\" : 1,\r\n\t\t\t\t\"status\" : \"Used\"\r\n\t\t\t}\r\n\t\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/check/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"check",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/check/list",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"check",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Detail GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/check/id/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"check",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test API POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" :1,\r\n    \"name\": \"abcv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/test_api",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"test_api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Device",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://asset-management-webserver.herokuapp.com/device/list",
+					"protocol": "https",
+					"host": [
+						"asset-management-webserver",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"device",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Contract",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"supplier\":1,\r\n    \"import_date\":\"2017-06-06\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/contract/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contract",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Supplier",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":6,\r\n \"name\":\"cellphoneS - pixelphone branch\",\r\n \"address\":\"350-352 Võ Văn Kiệt, Phường Cô Giang, Quận 1\",\r\n \"phone\":\"065139999998\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/supplier/update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"supplier",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete supplier",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":7\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/supplier/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"supplier",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List supplier",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/supplier/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"supplier",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Device and Contract",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"contract\" :{\r\n        \"supplier\":1,\r\n        \"import_date\":\"2020-12-14\"\r\n    },\r\n    \"devices\" : [\r\n        {\r\n\t\t\"name\": \"CPU Intel Pentium 4\",\r\n\t\t\"price\": 350000,\r\n\t\t\"specification\":\"Xung nhịp 2.5 GHz\",\r\n\t\t\"production_year\":2014,\r\n\t\t\"implement_year\":2014,\r\n\t\t\"status\": \"New\",\r\n\t\t\"annual_value_lost\": 0.1,\r\n\t\t\"contract_id\": 6,\r\n\t\t\"unit\": 1,\r\n\t\t\"type\": 12,\r\n        \"set_id\" : 1,\r\n\t\t\"current_value\": 150000,\r\n\t\t\"holding_division\": 1\r\n\t    },\r\n        {\r\n\t\t\"name\": \"Akko Midnight\",\r\n\t\t\"price\": 1600000,\r\n\t\t\"specification\":\"Bàn phím custom\",\r\n\t\t\"production_year\":2014,\r\n\t\t\"implement_year\":2014,\r\n\t\t\"status\": \"New\",\r\n\t\t\"annual_value_lost\": 0.1,\r\n\t\t\"contract_id\": 6,\r\n\t\t\"unit\": 1,\r\n\t\t\"type\": 3,\r\n\t\t\"current_value\": 1600000,\r\n\t\t\"holding_division\": 1\r\n\t    }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/device/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"device",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer to new division",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"transfer\":{\r\n\t\t\t\r\n\t\t\t\"sender\": 1,\r\n\t\t\t\"receiver\": 2,\r\n\t\t\t\"transfer_date\": \"2017-04-19\"\r\n\t\t},\r\n\t\t\"devices\" : [\r\n\t\t{\r\n\t\t\t\"id\" : 1\r\n\t\t}\r\n\t\t]\t\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/transfer/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"transfer",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Device list by contract",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/device/query?contract=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"device",
+						"query"
+					],
+					"query": [
+						{
+							"key": "contract",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Device List By Division",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/device/query?division=2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"device",
+						"query"
+					],
+					"query": [
+						{
+							"key": "division",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

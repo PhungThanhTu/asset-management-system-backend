@@ -4,7 +4,7 @@ var mssql = require('mssql')
 
 var sql_config = require('../sql_server')
 
-var controller = require('../controller/supplier.controller')
+var controller = require('../controller/personnel.controller')
 
 var router = express.Router();
 
@@ -15,7 +15,7 @@ router.post('/',controller.add)
 
 router.patch('/',controller.update)
 
-router.delete('/:id',controller.delete_supplier)
+router.delete('/:id',controller.delete_personnel)
 
 
 module.exports = router;
