@@ -85,10 +85,7 @@ async function getDetailedTransferById(id)
     .input('id',mssql.Int,id)
     .query('select id,name,specification,price from Detailed_Transfers,Devices where \
     Detailed_Transfers.device = Devices.id \
-    and Detailed_Transfers.transfers = @id',(err,handle) => {
-        if(err) console.log(err);
-        else console.log(handle);
-    }
+    and Detailed_Transfers.transfers = @id'
     ).then((result) =>
     {   
         
