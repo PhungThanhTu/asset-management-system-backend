@@ -123,10 +123,11 @@ as
 		declare @id int
 		select @id = id from inserted
 		update Devices set current_value = price - price * (YEAR(GETDATE()) - implement_year)*annual_value_lost
-		update Devices set Devices.status = 'Need Liquidating' where id = @id and current_value/price <= 0.5
+		update Devices set Devices.status = 'Need Liquidating' where id = @id and current_value/price <= 0.5 and Devices.status in('Used')
 	end
 go
 
+drop trigger current_value_based_on_year
 
 
 drop trigger status_check_liquidating
@@ -215,8 +216,8 @@ go
 create table Personnel
 (
 	id int identity(1,1) primary key,
-	name nvarchar(20),
-	position varchar(20),
+	name nvarchar(50),
+	position nvarchar(50),
 	division int not null
 
 	foreign key (division) references Division(id)

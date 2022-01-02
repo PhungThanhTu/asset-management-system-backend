@@ -29,3 +29,5 @@ drop table Detailed_Transfers
 drop table Check_log
 drop table Check_log_detail
 drop table Personnel
+drop table Inventory
+drop table Detailed_Inventory_Personnel

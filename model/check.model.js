@@ -79,8 +79,8 @@ async function listCheckLogDetail(id)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('id',mssql.Int,id)
-    .query('select device,division,status,current_value from Check_log_detail where \
-    check_log_id = @id').then((result) =>
+    .query('select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices where Devices.id = Check_log_detail.device and check_log_id = @id \
+    ').then((result) =>
     {   
         
         final_result = result;

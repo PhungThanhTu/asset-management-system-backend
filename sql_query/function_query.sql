@@ -102,7 +102,7 @@ DECLARE @json nvarchar(max) = N'{
 			
 			"sender": 2,
 			"receiver": 1,
-			"transfer_date": "2017-04-15"
+			"transfer_date": "2020-04-15"
 		},
 		"devices" : [
 		{
@@ -113,10 +113,11 @@ DECLARE @json nvarchar(max) = N'{
 		}
 		]		
 }'
+go
 
-
-
-
+-- new transfer using json
+CREATE PROCEDURE createNewTransfer @json nvarchar(max)
+as
 insert into Transfers (sender,receiver,transfer_date)
 					select sender,receiver,transfer_date 
 					from openjson(@json,'$.transfer') with
@@ -134,7 +135,8 @@ insert into Detailed_Transfers (transfers,device)
 			select @new_transfer_id as transfers,id as device from openjson(@json,'$.devices') with
 (
 	id int '$.id'
-) 
+)
+
 update Devices 
 SET Devices.holding_division = ( select receiver from openjson(@json,'$.transfer') with
 								(
@@ -148,6 +150,12 @@ FROM Devices
 	id int '$.id'
 )	newdevices
 ON Devices.id = newdevices.id
+go
+
+
+
+
+
 
 select * from Devices
 select Transfers.id,S.name as sender_name, R.name as receiver_name,Transfers.transfer_date from Transfers,Division S,Division R
@@ -180,9 +188,10 @@ DECLARE @check nvarchar(max) = N'{
 		]
 }'
 
-
--- update device information
-
+go
+-- check device status using json
+CREATE PROCEDURE checkDeviceStatus @check nvarchar(max)
+as
 --- insert check log table
 insert into Check_log (check_date)
 					select check_date 
@@ -215,9 +224,94 @@ JOIN   OPENJSON(@check, '$.detail')
 	   current_value money '$.current_value'
 	   ) device_data
        ON Devices.id = device_data.id
-
+go
 
 select * from Devices
 select * from Check_log
 select * from Check_log_detail
 
+
+------- inventory JSON request body
+
+DECLARE @inventory nvarchar(max)
+set @inventory = '{
+	"personnel" : [
+		{
+			"id": 1
+		},
+		{
+			"id": 2
+		}
+	],
+	"check_detail" : {
+		"check": {
+			"check_date" : "2014-05-12"	
+		},
+		"detail" :[
+			{
+				"id": 1,
+				"division" : 1,
+				"status" : "Need Liquidating",
+				"current_value" : 130000
+			},
+			{
+				"id": 2,
+				"division" : 1,
+				"status" : "Used",
+				"current_value" : 150000
+			},
+			{
+				"id": 3,
+				"division" : 1,
+				"status" : "Used",
+				"current_value" : 150000
+			},
+			{
+				"id": 4,
+				"division" : 1,
+				"status" : "Need Liquidating",
+				"current_value" : 150000
+			},
+			{
+				"id": 5,
+				"division" : 1,
+				"status" : "Used",
+				"current_value" : 150000
+			}
+		]
+	}
+}'
+
+
+
+declare @check_detail nvarchar(max)
+select @check_detail = JSON_QUERY(@inventory,'$.check_detail')
+ 
+
+EXEC checkDeviceStatus @check = @check_detail
+
+
+declare @curr_check_id int
+
+select @curr_check_id = IDENT_CURRENT('Check_log')
+
+insert into Inventory values (@curr_check_id)
+
+declare @curr_inv_id int
+select @curr_inv_id  = IDENT_CURRENT('Inventory')
+
+insert into Detailed_Inventory_Personnel (inventory,personnel)
+	select @curr_inv_id as inventory,id as personnel from openjson(@inventory,'$.personnel') with
+(
+	id int '$.id'
+)
+
+select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices where Devices.id = Check_log_detail.device and check_log_id = 7
+   
+
+--- get inventory list
+select Inventory.id, check_date as inventory_date from Inventory, Check_log where Inventory.check_log = Check_log.id
+--- get inventory result detail
+select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Inventory where Devices.id = Check_log_detail.device and  Inventory.check_log = Check_log_detail.check_log_id and Inventory.id = 1
+--- get inventory personnel detail
+select Personnel.id as id,Personnel.name, position, Division.name as division from Detailed_Inventory_Personnel,Personnel,Division where personnel = Personnel.id and Division.id = Personnel.division and Detailed_Inventory_Personnel.inventory = 1

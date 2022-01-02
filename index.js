@@ -14,6 +14,7 @@ var device = require('./routes/device');
 var transfer = require('./routes/transfer')
 var check = require('./routes/check')
 var personnel = require('./routes/personnel')
+var inventory = require('./routes/inventory')
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use('/device',device);
 app.use('/transfer',transfer);
 app.use('/check',check);
 app.use('/personnel',personnel);
+app.use('/inventory',inventory);
 
 app.get('/',(req,res) => {
 
