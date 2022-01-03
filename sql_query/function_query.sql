@@ -305,6 +305,12 @@ insert into Detailed_Inventory_Personnel (inventory,personnel)
 (
 	id int '$.id'
 )
+select id,name,specification,price from Detailed_Transfers,Devices where 
+    Detailed_Transfers.device = Devices.id
+    and Detailed_Transfers.transfers = 1
+
+select device as id,Devices.name, Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Division where Division.id = Check_log_detail.division and Devices.id = Check_log_detail.device and Check_log_detail.check_log_id = 1
+select device as id,name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Division where Division.id = Check_log_detail.division Devices.id = Check_log_detail.device and check_log_id = 1
 
 select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices where Devices.id = Check_log_detail.device and check_log_id = 7
    
