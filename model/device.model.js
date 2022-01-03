@@ -65,7 +65,7 @@ async function getDevicesByDivision(id)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('id',mssql.Int,id)
-    .query('select id,name,specification,price,status,current_value from Devices where holding_division = @id').then((result) =>
+    .query('select id,name,specification,price,status,current_value from Devices where holding_division = @id and status not in(\'Liquidated\')').then((result) =>
     {   
         
         final_result = result;
@@ -82,7 +82,7 @@ async function getDeviceByContract(id)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('id',mssql.Int,id)
-    .query('select id,name,specification,price from Devices where contract_id = @id').then((result) =>
+    .query('select id,name,specification,price from Devices where contract_id = @id and status not in(\'Liquidated\')').then((result) =>
     {   
         
         final_result = result;
