@@ -324,3 +324,77 @@ select Inventory.id, check_date as inventory_date from Inventory, Check_log wher
 select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Inventory where Devices.id = Check_log_detail.device and  Inventory.check_log = Check_log_detail.check_log_id and Inventory.id = 1
 --- get inventory personnel detail
 select Personnel.id as id,Personnel.name, position, Division.name as division from Detailed_Inventory_Personnel,Personnel,Division where personnel = Personnel.id and Division.id = Personnel.division and Detailed_Inventory_Personnel.inventory = 1
+
+
+
+
+DECLARE @liquidation nvarchar(max)
+set @liquidation = '{
+	"personnel" : [
+		{
+			"id": 1
+		},
+		{
+			"id": 2
+		}
+	],
+	"check_detail" : {
+		"check": {
+			"check_date" : "2014-05-12"	
+		},
+		"detail" :[
+			{
+				"id": 1,
+				"division" : 1,
+				"status" : "Liquidated",
+				"current_value" : 130000
+			},
+			{
+				"id": 4,
+				"division" : 1,
+				"status" : "Liquidated",
+				"current_value" : 150000
+			}
+		]
+	}
+}'
+
+---- liquidate devices
+
+declare @check_detail nvarchar(max)
+select @check_detail = JSON_QUERY(@liquidation,'$.check_detail')
+ 
+
+EXEC checkDeviceStatus @check = @check_detail
+
+
+declare @curr_check_id int
+
+select @curr_check_id = IDENT_CURRENT('Check_log')
+
+insert into Liquidation values (@curr_check_id)
+
+declare @curr_liq_id int
+select @curr_liq_id  = IDENT_CURRENT('Liquidation')
+
+insert into Detailed_liquidation_personnel (liquidation,personnel)
+	select @curr_liq_id as liquidation,id as personnel from openjson(@liquidation,'$.personnel') with
+(
+	id int '$.id'
+)
+
+
+--- list device which need to be liquidated by division
+
+select id,name,specification,price,status,current_value from Devices where holding_division = 1 and status in('Need Liquidating')
+
+--- get liquidation list
+select Liquidation.id, check_date as liquidation_date from Liquidation, Check_log where Liquidation.check_log = Check_log.id
+--- get liquidation result detail
+select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Liquidation.id = 1
+--- get liquidation personnel detail
+select Personnel.id as id,Personnel.name, position, Division.name as division from Detailed_liquidation_personnel,Personnel,Division where personnel = Personnel.id and Division.id = Personnel.division and Detailed_liquidation_personnel.liquidation = 1
+
+declare @id int
+select @id = 1
+select id,name,specification,price,status,current_value from Devices where holding_division = @id and status in('Need Liquidating')

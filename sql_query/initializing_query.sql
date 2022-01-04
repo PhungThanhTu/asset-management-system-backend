@@ -247,9 +247,23 @@ go
 create table Liquidation
 (
 	id int identity(1,1) primary key,
-	liquidation_date date
+	check_log int,
+	foreign key (check_log) references Check_log(id)
 )
 go
+
+create table Detailed_liquidation_personnel
+(
+	liquidation int,
+	personnel int
+
+	foreign key (liquidation) references Liquidation(id),
+	foreign key (personnel) references Personnel(id),
+	primary key (liquidation,personnel)
+)
+go
+
+
 
 
 create table Repairer

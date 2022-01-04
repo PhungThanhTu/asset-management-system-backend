@@ -13,7 +13,8 @@ select * from Detailed_Transfers
 select * from Personnel
 select * from Inventory
 select * from Detailed_Inventory_Personnel
-
+select * from Liquidation
+select * from Detailed_liquidation_personnel
 
 
 -- dispose query

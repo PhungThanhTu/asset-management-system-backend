@@ -15,6 +15,7 @@ var transfer = require('./routes/transfer')
 var check = require('./routes/check')
 var personnel = require('./routes/personnel')
 var inventory = require('./routes/inventory')
+var liquidation = require('./routes/liquidation')
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
@@ -30,6 +31,8 @@ app.use('/transfer',transfer);
 app.use('/check',check);
 app.use('/personnel',personnel);
 app.use('/inventory',inventory);
+app.use('/liquidation',liquidation);
+
 
 app.get('/',(req,res) => {
 
