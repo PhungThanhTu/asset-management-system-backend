@@ -45,6 +45,9 @@ select * from Division
 select * from device_unit
 select * from device_type
 
+
+
+
 select Devices.id,Devices.name,Devices.price, Devices.specification, Devices.production_year, Devices.implement_year, Devices.status,
 Devices.annual_value_lost,Devices.contract_id,Division.name as holding_division,Division.type as division_type, device_unit.u_name as unit, device_type.t_name as type,
 device_type.note as note, Devices.current_value

@@ -244,7 +244,12 @@ create table Detailed_Inventory_Personnel
 )
 go
 
-
+create table Liquidation
+(
+	id int identity(1,1) primary key,
+	liquidation_date date
+)
+go
 
 
 create table Repairer
