@@ -70,7 +70,7 @@ async function getInventoryDeviceDetail(id)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('id',mssql.Int,id)
-    .query('select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Inventory where Devices.id = Check_log_detail.device and  Inventory.check_log = Check_log_detail.check_log_id and Inventory.id = @id \
+    .query('select device as id,Devices.name as name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Inventory,Division where Devices.id = Check_log_detail.device and  Inventory.check_log = Check_log_detail.check_log_id and Check_log_detail.division = Division.id and Inventory.id = @id \
     ').then((result) =>
     {   
         
