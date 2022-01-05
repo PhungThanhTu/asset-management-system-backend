@@ -398,3 +398,75 @@ select Personnel.id as id,Personnel.name, position, Division.name as division fr
 declare @id int
 select @id = 1
 select id,name,specification,price,status,current_value from Devices where holding_division = @id and status in('Need Liquidating')
+
+
+
+declare @id int
+set @id = 1
+select Personnel.id as id,Personnel.name, position, Division.name as division from Detailed_Inventory_Personnel,Personnel,Division where personnel = Personnel.id and Division.id = Personnel.division and Detailed_Inventory_Personnel.inventory = @id 
+select device as id,Devices.name as name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Inventory,Division where Devices.id = Check_log_detail.device and  Inventory.check_log = Check_log_detail.check_log_id and Check_log_detail.division = Division.id and Inventory.id = @id
+
+
+
+select id,name,phone,address from Repairer
+-- select device need to be repaired
+select id,name,specification,status from Devices where status = 'Spoiled'
+-- select repair bill log
+select Repair_bill.id, Repairer.name as repairer,repair_date,sum_money as total_bill from Repair_bill,Repairer where Repair_bill.repairer = Repairer.id
+-- select repair detail
+select bill,Devices.id,name,Devices.specification, Repair_bill_detail.price as repair_price from Repair_bill_detail,Devices where Devices.id = Repair_bill_detail.device and Repair_bill_detail.bill = @id
+--------------- repair
+declare @repair_var nvarchar(max)
+set @repair_var = N'{
+	"repairer" : 1,
+	"repair_date" : "2022-1-3",
+	"repair_bill" : [
+	{
+		"device" : 5,
+		"price" : 2000000
+	}
+	]
+}'
+
+
+
+
+EXEC repair_device @repair = @repair
+
+go
+
+create procedure repair_device @repair nvarchar(max)
+as
+-- insert into bill
+insert into Repair_bill (repairer,repair_date,sum_money)
+select repairer,repair_date,0 as sum_money from openjson(@repair) with 
+(
+	repairer int '$.repairer',
+	repair_date date '$.repair_date'
+)
+
+-- select inserted repair bill
+declare @curr_bill_id int
+select @curr_bill_id = IDENT_CURRENT('Repair_bill')
+
+-- insert into repair bill detail
+insert into Repair_bill_detail (bill,device,price)
+			select @curr_bill_id as bill,device,price from openjson(@repair,'$.repair_bill') with
+(
+	device int '$.device',
+	price money '$.price'
+) 
+
+-- update device status
+-- update device information
+UPDATE Devices
+SET    status = 'Used'
+FROM   Devices
+JOIN   OPENJSON(@repair,'$.repair_bill')
+       WITH (
+	   id int '$.device'
+	   ) device_data
+       ON Devices.id = device_data.id
+go
+
+drop procedure repair_device 

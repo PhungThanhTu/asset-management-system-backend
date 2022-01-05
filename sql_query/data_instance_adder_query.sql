@@ -58,7 +58,7 @@ INSERT INTO Contracts (import_date,price,supplier) VALUES ('2021-12-16',0,4)
 
 -----------------------------done get,post,patch,delete
 
-
+INSERT INTO Repairer (name,phone,address) values ('iFixit','035222222','KTX Khu B Đông Hòa Dĩ An Bình Dương')
 
 
 

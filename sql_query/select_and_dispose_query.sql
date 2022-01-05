@@ -15,8 +15,8 @@ select * from Inventory
 select * from Detailed_Inventory_Personnel
 select * from Liquidation
 select * from Detailed_liquidation_personnel
-
-
+select * from Repair_bill
+select * from Repair_bill_detail
 -- dispose query
 drop table Devices
 drop table Contracts
@@ -32,3 +32,7 @@ drop table Check_log_detail
 drop table Personnel
 drop table Inventory
 drop table Detailed_Inventory_Personnel
+drop table Liquidation
+drop table Detailed_liquidation_personnel
+drop table Repair_bill
+drop table Repair_bill_detail

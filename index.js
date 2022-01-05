@@ -16,6 +16,9 @@ var check = require('./routes/check')
 var personnel = require('./routes/personnel')
 var inventory = require('./routes/inventory')
 var liquidation = require('./routes/liquidation')
+var repairer = require('./routes/repairer')
+var repair = require('./routes/repair')
+var statistic = require('./routes/statistic')
 var test_api = require('./routes/test_api')
 
 app.use(express.json());
@@ -32,8 +35,9 @@ app.use('/check',check);
 app.use('/personnel',personnel);
 app.use('/inventory',inventory);
 app.use('/liquidation',liquidation);
-
-
+app.use('/repair',repair);
+app.use('/repairer',repairer);
+app.use('/statistic',statistic)
 app.get('/',(req,res) => {
 
 })

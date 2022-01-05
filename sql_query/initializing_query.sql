@@ -123,7 +123,7 @@ as
 		declare @id int
 		select @id = id from inserted
 		update Devices set current_value = price - price * (YEAR(GETDATE()) - implement_year)*annual_value_lost
-		update Devices set Devices.status = 'Need Liquidating' where id = @id and current_value/price <= 0.5 and Devices.status in('Used')
+		update Devices set Devices.status = 'Need Liquidating' where  current_value/price <= 0.5 and status in('Used')
 	end
 go
 
@@ -144,8 +144,6 @@ begin
 end
 -- division trigger
 	-- when insert a device, its set id is 1 and division id is 1
-
-
 
 create table Transfers
 (
@@ -269,113 +267,50 @@ go
 create table Repairer
 (
 	id int identity(1,1) primary key,
-	name nvarchar(50)
+	name nvarchar(50),
+	phone varchar(20),
+	address nvarchar(100)
 )
 go
 
-
-
-
-
-
-
-
-
-
-
-
-create table Inventory
+create table Repair_bill
 (
 	id int identity(1,1) primary key,
-	date date
-)
-go
-
-create table Detailed_Inventory
-(
-	remaining_value int,
-	inventory int,
-	device int
-
-	foreign key (inventory) references Inventory(id),
-	foreign key (device) references Device(id),
-	primary key (inventory,device)
-)
-go
-
-
-
-create table Liquidation
-(
-	id int identity(1,1) primary key,
-	date date
-)
-go
-
-create table Detailed_Liquidation
-(
-	liquidation int,
-	device int
-
-	foreign key (liquidation) references Liquidation(id),
-	foreign key (device) references Device(id),
-	primary key (liquidation,device)
-)
-go
-
-create table Detailed_Liquidation_Personnel
-(
-	liquidation int,
-	personnel int
-
-	foreign key (liquidation) references Liquidation(id),
-	foreign key (personnel) references Personnel(id),
-	primary key (liquidation,personnel)
-)
-go
-
-
-
-create table Fix
-(
-	id int identity(1,1) primary key,
-	decide_id int,
-	date date,
 	repairer int,
-	total real null
-)
-go
+	repair_date date,
+	sum_money money,
 
-create table Detailed_Fix
+	foreign key (repairer) references Repairer(id)
+)
+
+create table Repair_bill_detail
 (
-	fix int,
+	bill int,
 	device int,
-	fee real
+	price money
 
-	foreign key (fix) references Fix(id),
-	foreign key (device) references Device(id),
-	primary key (fix,device)
+	foreign key (bill) references Repair_bill(id),
+	foreign key (device) references Devices(id),
+	primary key (bill,device)
 )
 go
 
-Select Sum(fee) as "Tong chi phi" FROM Detailed_Fix GROUP BY fix
-ALTER TABLE Fix
-ADD CONSTRAINT CHK_Total CHECK (total = 'Tong chi phi')
-
-create table Worth
-(
-	id int identity(1,1) primary key,
-	date date
-)
-
-create table Deatiled_Worth
-(
-	worth int,
-	device int,
-	status nvarchar(50)
-
-	foreign key (worth) references Worth(id),
-	foreign key (device) references Device(id),
-	primary key (worth,device)
-)
+create trigger on_repair on Repair_bill_detail for insert,update
+as
+begin
+	declare @bill int
+	declare @sum_money money
+	select @bill = bill from inserted
+	select @sum_money = sum(price) from Repair_bill_detail where bill = @bill
+	
+	update Repair_bill set sum_money = @sum_money where id = @bill
+end
 go
+
+drop trigger on_repair
+
+select sum(price) from Repair_bill_detail where bill = 1
+
+
+
+
