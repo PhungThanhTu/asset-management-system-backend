@@ -17,5 +17,6 @@ router.patch('/',controller.update)
 
 router.delete('/:id',controller.delete_personnel)
 
+router.get('/full_list',controller.listFull)
 
 module.exports = router;

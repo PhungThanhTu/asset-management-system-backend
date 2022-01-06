@@ -16,6 +16,24 @@ async function list(req,res) {
     
 }
 
+
+async function listFull(req,res) {
+    try
+    {
+        let result = await model.getPersonnelWithId();
+        res.send(result);
+    }
+    catch 
+    {
+        res.send({
+            message:"An error occured, please try again"
+        })
+    }
+    
+}
+
+
+
 async function add(req,res)
 {   
     let message = {
@@ -92,4 +110,4 @@ async function delete_personnel(req,res){
     res.send(message);
 }
 
-module.exports = {list,add,update,delete_personnel}
+module.exports = {list,add,update,delete_personnel,listFull}

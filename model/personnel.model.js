@@ -28,6 +28,30 @@ async function getPersonnel() {
     
 }
 
+async function getPersonnelWithId() {
+    console.log('User get personnel list');
+    
+    
+    try {
+        await mssql.connect(sql_config);
+        const result = await mssql.query`select Personnel.id,Personnel.name,position,division from Personnel`;
+        
+        const list = result.recordset;
+        console.log(list);
+        return list;
+
+        
+    }
+    catch {
+        return {
+            message:'Connection Error'
+        }
+    }
+    
+    
+}
+
+
 async function addnewPersonnel(personnel){
     let final_result;
     let  pool = await mssql.connect(sql_config);
@@ -77,4 +101,4 @@ async function deletePersonnel(id)
         return final_result[0];
  }
 
-module.exports = {getPersonnel,addnewPersonnel,updatePersonnel,deletePersonnel}
+module.exports = {getPersonnel,addnewPersonnel,updatePersonnel,deletePersonnel,getPersonnelWithId}
