@@ -11,7 +11,7 @@ async function getPersonnel() {
     
     try {
         await mssql.connect(sql_config);
-        const result = await mssql.query`select Personnel.id,Personnel.name,position,Division.name as division from Personnel, Division where Division.id = Personnel.id`;
+        const result = await mssql.query`select Personnel.id,Personnel.name,position,Division.name as division from Personnel, Division where Division.id = Personnel.division`;
         
         const list = result.recordset;
         console.log(list);
