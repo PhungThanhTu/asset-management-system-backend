@@ -470,3 +470,6 @@ JOIN   OPENJSON(@repair,'$.repair_bill')
 go
 
 drop procedure repair_device 
+
+
+select year(repair_date) as year ,sum(sum_money) as repair_price from Repair_bill GROUP BY year(repair_date)
