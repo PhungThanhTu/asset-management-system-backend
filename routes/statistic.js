@@ -10,5 +10,6 @@ var router = express.Router();
 
 
 router.get('/year_price',controller.statisticRepairPrice);
+router.get('/device_count/:id',controller.deviceCountByDivision);
 
 module.exports = router;

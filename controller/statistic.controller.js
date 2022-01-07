@@ -16,4 +16,20 @@ async function statisticRepairPrice(req,res) {
     
 }
 
-module.exports = {statisticRepairPrice}
+async function deviceCountByDivision(req,res)
+{
+    try
+        {   
+            console.log("User want to know count by year on division ",req.params.id)
+            let result = await model.getDeviceCountBasedOnYearByDivision(req.params.id)
+            res.send(result);
+        }
+        catch 
+        {
+            res.send({
+                message:"An error occured, please try again"
+            })
+        }
+}
+
+module.exports = {statisticRepairPrice,deviceCountByDivision}
