@@ -136,7 +136,7 @@ async function getDeviceList()
 {
     try {
         await mssql.connect(sql_config);
-        const result = await mssql.query`select * from Devices`;
+        const result = await mssql.query`select * from Devices where status not in(\'Liquidated\')`;
         
         const list = result.recordset;
         console.log(list);
