@@ -473,3 +473,16 @@ drop procedure repair_device
 
 
 select year(repair_date) as year ,sum(sum_money) as repair_price from Repair_bill GROUP BY year(repair_date)
+
+select * from Repair_bill
+delete from Repair_bill_detail where bill = 4
+delete from Repair_bill_detail where bill = 5
+delete from Repair_bill where id = 4
+delete from Repair_bill where id = 5
+select * from Repair_bill_detail
+
+declare @division int
+set @division = 2
+
+
+select avg(count_table.count_device) as count, year(count_table.check_date) as year from ( select count(*) as count_device, Inventory.id, Check_log.check_date from Inventory, Check_log, Check_log_detail where Inventory.check_log = Check_log.id and Check_log.id = Check_log_detail.check_log_id  and Check_log_detail.division = @division and Check_log_detail.status not in('Liquidated','Lost','Transfered Outside') group by Inventory.id,Check_log.id, check_date ) count_table group by year(check_date)

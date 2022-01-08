@@ -14,6 +14,7 @@ router.get('/list',controller.getLiquidationList);
 router.get('/query',controller.getLiquidatingDeviceByDivision);
 router.get('/devices/:id',controller.getLiquidationDeviceDetail);
 router.get('/personnel/:id',controller.getLiquidationPersonnelDetail);
-
+router.get('/years',controller.getLiquidationYear);
+router.get('/:year',controller.getLiquidatingDeviceByYear);
 
 module.exports = router;

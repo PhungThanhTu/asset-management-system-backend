@@ -84,5 +84,36 @@ async function getLiquidatingDeviceByDivision(req,res)
     }
 }
 
+async function getLiquidationYear(req,res)
+{
+    try
+    {
+        let result = await model.getLiquidationYear();
+        res.send(result);
+    }
+    catch
+    {
+        res.send({
+            "message":"An error has occured, please try again"
+        })
+    }
+}
 
-module.exports = {liquidate,getLiquidationList,getLiquidationPersonnelDetail,getLiquidationDeviceDetail,getLiquidatingDeviceByDivision}
+async function getLiquidatingDeviceByYear(req,res)
+{   
+    console.log("list liquidated device by year  ",req.params.year);
+
+    try
+    {
+        let result = await model.getLiquidationListByYear(req.params.year);
+        res.send(result);
+    }
+    catch 
+    {
+        res.send({
+            message:"An error occured, please try again"
+        })
+    }
+}
+
+module.exports = {liquidate,getLiquidationList,getLiquidationPersonnelDetail,getLiquidationDeviceDetail,getLiquidatingDeviceByDivision,getLiquidationYear,getLiquidatingDeviceByYear}

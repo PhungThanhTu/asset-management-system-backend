@@ -80,7 +80,7 @@ async function getLiquidationList()
 
 async function getLiquidationDeviceDetail(id)
 {
-    console.log('User inventory device detail ', id);
+    console.log('User liquidation device detail ', id);
     
     
     let final_result;
@@ -98,7 +98,7 @@ async function getLiquidationDeviceDetail(id)
 
 async function getLiquidationPersonnel(id)
 {
-    console.log('User inventory personnel detail ', id);
+    console.log('User liquidation personnel detail ', id);
     
     
     let final_result;
@@ -114,4 +114,43 @@ async function getLiquidationPersonnel(id)
     return final_result.recordset;
 }
 
-module.exports = {startLiquidation,getLiquidationList,getLiquidationDeviceDetail,getLiquidationPersonnel,listNeedLiquidatingDeviceByDivision}
+async function getLiquidationYear()
+{
+    console.log('User get inventory list');
+    
+    
+    try {
+        await mssql.connect(sql_config);
+        const result = await mssql.query`select distinct year(check_date) as year from Liquidation, Check_log where Liquidation.check_log = Check_log.id`;   
+        const list = result.recordset;
+        console.log(list);
+        return list;
+
+        
+    }
+    catch {
+        return {
+            message:'Error Occured, please try again'
+        }
+    }
+}
+
+async function getLiquidationListByYear(year)
+{
+    console.log('User list liquidation devices by year ', year);
+    
+    
+    let final_result;
+    let  pool = await mssql.connect(sql_config);
+    let request = await pool.request()
+    .input('year',mssql.Int,year)
+    .query('select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Check_log where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Check_log.id = Liquidation.check_log and year(check_date) = @year \
+    ').then((result) =>
+    {   
+        
+        final_result = result;
+    });
+    return final_result.recordset; 
+}
+
+module.exports = {startLiquidation,getLiquidationList,getLiquidationDeviceDetail,getLiquidationPersonnel,listNeedLiquidatingDeviceByDivision,getLiquidationListByYear,getLiquidationYear}
