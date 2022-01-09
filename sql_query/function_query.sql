@@ -494,3 +494,15 @@ set @division = 2
 
 
 select avg(count_table.count_device) as count, year(count_table.check_date) as year from ( select count(*) as count_device, Inventory.id, Check_log.check_date from Inventory, Check_log, Check_log_detail where Inventory.check_log = Check_log.id and Check_log.id = Check_log_detail.check_log_id  and Check_log_detail.division = @division and Check_log_detail.status not in('Liquidated','Lost','Transfered Outside') group by Inventory.id,Check_log.id, check_date ) count_table group by year(check_date)
+
+
+--- liquidation device detail changed division from id to name
+declare @id int
+set @id = 1
+select device as id,Devices.name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Division where Division.id = Check_log_detail.division and Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Liquidation.id = @id
+
+
+--- liquidation device based on year division changed from id to name
+declare @year int
+set @year = 2014
+select device as id,Devices.name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Check_log,Division where Division.id = Check_log_detail.division and Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Check_log.id = Liquidation.check_log and year(check_date) = @year
