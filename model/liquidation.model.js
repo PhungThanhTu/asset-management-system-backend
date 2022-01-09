@@ -87,7 +87,7 @@ async function getLiquidationDeviceDetail(id)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('id',mssql.Int,id)
-    .query('select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Liquidation.id = @id \
+    .query('select device as id,Devices.name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Division where Division.id = Check_log_detail.division and Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Liquidation.id = @id \
     ').then((result) =>
     {   
         
@@ -144,7 +144,7 @@ async function getLiquidationListByYear(year)
     let  pool = await mssql.connect(sql_config);
     let request = await pool.request()
     .input('year',mssql.Int,year)
-    .query('select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Check_log where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Check_log.id = Liquidation.check_log and year(check_date) = @year \
+    .query('select device as id,Devices.name,Division.name as division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Check_log,Division where Division.id = Check_log_detail.division and Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Check_log.id = Liquidation.check_log and year(check_date) = @year \
     ').then((result) =>
     {   
         

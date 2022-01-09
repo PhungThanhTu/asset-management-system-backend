@@ -390,6 +390,14 @@ select id,name,specification,price,status,current_value from Devices where holdi
 
 --- get liquidation list
 select Liquidation.id, check_date as liquidation_date from Liquidation, Check_log where Liquidation.check_log = Check_log.id
+--- get year listed in liquidation
+select distinct year(check_date) as year from Liquidation, Check_log where Liquidation.check_log = Check_log.id
+--- get liquidation list based on year
+declare @year int
+set @year = 2020
+
+---- get liquidation based on year
+select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation,Check_log where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Check_log.id = Liquidation.check_log and year(check_date) = @year
 --- get liquidation result detail
 select device as id,name,Check_log_detail.division,Check_log_detail.status,Check_log_detail.current_value from Check_log_detail,Devices,Liquidation where Devices.id = Check_log_detail.device and  Liquidation.check_log = Check_log_detail.check_log_id and Liquidation.id = 1
 --- get liquidation personnel detail
