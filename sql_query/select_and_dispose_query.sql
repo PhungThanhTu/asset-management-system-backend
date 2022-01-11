@@ -18,6 +18,18 @@ select * from Detailed_liquidation_personnel
 select * from Repair_bill
 select * from Repair_bill_detail
 -- dispose query
+drop table Repair_bill_detail
+drop table Repair_bill
+drop table Repairer
+drop table Detailed_liquidation_personnel
+drop table Liquidation
+drop table Detailed_Inventory_Personnel
+drop table Inventory
+drop table Personnel
+drop table Check_log_detail
+drop table Check_log
+drop table Detailed_Transfers
+drop table Transfers
 drop table Devices
 drop table Contracts
 drop table device_type
@@ -25,14 +37,14 @@ drop table device_unit
 drop table Division
 drop table Supplier
 drop table Account
-drop table Transfers
-drop table Detailed_Transfers
-drop table Check_log
-drop table Check_log_detail
-drop table Personnel
-drop table Inventory
-drop table Detailed_Inventory_Personnel
-drop table Liquidation
-drop table Detailed_liquidation_personnel
-drop table Repair_bill
-drop table Repair_bill_detail
+
+
+
+
+
+
+
+
+
+
+

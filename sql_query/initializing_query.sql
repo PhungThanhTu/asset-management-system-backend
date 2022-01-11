@@ -1,14 +1,6 @@
-﻿drop database AssetsManagement 
-create database AssetsManagement
-go
-
-use AssetsManagement
-go
-
--- tables
+﻿
 
 
--- login
 
 create table Account
 (
@@ -17,7 +9,7 @@ create table Account
 	password varchar(50)
 )
 go
--- contracts and devices
+
 create table Supplier
 (
 	id int identity(1,1) primary key,
@@ -45,7 +37,6 @@ create table device_unit
 )
 go
 
--- đặt tên sao cho không trùng keyword của mssql
 create table device_type
 (
 	id int identity(1,1) primary key,
@@ -54,7 +45,6 @@ create table device_type
 )
 go
 
--- Đơn vị chỉ có 2 loại, đó là Quản lí và Sử dụng, các thiết bị mới nhập về luôn là từ phòng quản lí
 create table Division
 (
 	id int identity(1,1) primary key,
@@ -64,8 +54,6 @@ create table Division
 	CHECK (type in ('Using','Managing'))
 )
 go
-
-
 
 create table Devices
 (
@@ -90,8 +78,7 @@ create table Devices
 )
 go
 
--- contract trigger
-	-- when insert a contract, its initial price is zero
+
 create trigger on_insert_contract on Contracts for insert
 as
 begin
@@ -102,7 +89,7 @@ begin
 	PRINT('Inserted contract price is set to 0')
 end
 go
-	-- will calculate sum of all products in one contract
+
 create trigger on_insert_update_devices on Devices for insert,update
 as
 begin
@@ -115,8 +102,6 @@ begin
 end
 go
 
-
-
 create trigger current_value_based_on_year on Devices for update
 as
 	begin
@@ -127,10 +112,7 @@ as
 	end
 go
 
-drop trigger current_value_based_on_year
-
-
-drop trigger status_check_liquidating
+go
 
 create trigger on_delete_devices on Devices for delete
 as
@@ -156,6 +138,17 @@ create table Transfers
 	foreign key (receiver) references Division(id)
 )
 go
+
+create table Transfers
+(
+	id int identity(1,1) primary key,
+	sender int,
+	receiver int,
+	transfer_date date,
+
+	foreign key (sender) references Division(id),
+	foreign key (receiver) references Division(id)
+)
 
 create table Detailed_Transfers
 (
@@ -261,9 +254,6 @@ create table Detailed_liquidation_personnel
 )
 go
 
-
-
-
 create table Repairer
 (
 	id int identity(1,1) primary key,
@@ -307,9 +297,7 @@ begin
 end
 go
 
-drop trigger on_repair
 
-select sum(price) from Repair_bill_detail where bill = 1
 
 
 
