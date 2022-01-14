@@ -89,3 +89,4 @@ async function listCheckLogDetail(id)
 }
 
 module.exports = {checkDevices,listCheckLog,listCheckLogDetail}
+
