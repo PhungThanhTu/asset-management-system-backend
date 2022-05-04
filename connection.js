@@ -4,16 +4,16 @@ var TYPES = require('tedious').TYPES;
 
 // Create connection to database
 var config = {
-  server: 'sql5105.site4now.net',
+  server: 'sql8001.site4now.net',
   authentication: {
       type: 'default',
       options: {
-          userName: 'db_a7d809_phungthanhtu_admin', // update me
+          userName: 'db_a8670c_phungthanhtu_admin', // update me
           password: 'Phungthanhtu!1' // update me
       }
   },
   options: {
-      database: 'db_a7d809_phungthanhtu'
+      database: 'db_a8670c_phungthanhtu'
   }
 }
 var connection = new Connection(config);
